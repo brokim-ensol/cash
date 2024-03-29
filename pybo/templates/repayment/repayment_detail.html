@@ -1,7 +1,4 @@
-<h1>상환내역 입력</h1>
-<form action="{{ url_for('repayment.create') }}" method="post">
-    <textarea name="category" id="category" rows="1"></textarea>
-    <textarea name="amount" id="amount" rows="1"></textarea>
-    <textarea name="remark" id="remark" rows="1"></textarea>
-    <input type="submit" value="상환등록">
-</form>
+<h1>상환내역</h1>
+<div>
+    {{ repayment.category }} / {{ repayment.amount }} / {{ repayment.remark }} // {{ repayment.created_at }}
+</div>
