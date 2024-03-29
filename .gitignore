@@ -221,4 +221,5 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,windows
 
 *.csv
-db/silgerae.db
+config.py
+migrations

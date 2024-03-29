@@ -1,0 +1,9 @@
+{% if balance_list %}
+    <ul>
+    {% for balance in balance_list %}
+        <li><a href="{{ url_for('balance.detail', balance_id=balance.id) }}">{{ balance.id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>내역이 없습니다.</p>
+{% endif %}

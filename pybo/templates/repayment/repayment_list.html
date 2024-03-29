@@ -1,0 +1,9 @@
+{% if repayment_list %}
+    <ul>
+    {% for repayment in repayment_list %}
+        <li><a href="{{ url_for('repayment.detail', repayment_id=repayment.id) }}">{{ repayment.id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>상환 내역이 없습니다.</p>
+{% endif %}
