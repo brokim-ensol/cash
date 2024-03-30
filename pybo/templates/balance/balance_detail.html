@@ -1,7 +1,26 @@
-<h1>{{ balance.id }}</h1>
-<div>
-    상환 금액 : {{ balance.repayment.amount }}
-    잔여 금액 : {{ balance.balance }}
-    상환 날짜 : {{ balance.created_at }}
-    특이 사항 : {{ balance.remark }}
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">대출금 잔액 상세</h5>
+    <form method="get" class="my-3">
+        <div class="mb-3">
+            <label for="amount">상환금액(만원)</label>
+            <input type="text" class="form-control" name="amount" id="amount" value="{{ balance.repayment.amount }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="balance">대출금 잔액(만원)</label>
+            <input type="text" class="form-control" name="balance" id="balance" value="{{ balance.balance }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="created_at">상환날짜</label>
+            <input type="date" class="form-control" name="created_at" id="created_at" value="{{ balance.created_at.strftime('%Y-%m-%d') }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="remark">비고</label>
+            <input type="text" class="form-control" name="remark" id="remark" value="{{ balance.remark }}" readonly>
+        </div>
+    </form>
+    <a href="{{ url_for('balance._list') }}" class="btn btn-primary">전체목록</a>
 </div>
+{% endblock %}

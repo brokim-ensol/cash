@@ -1,9 +1,43 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="{{ url_for('repayment.create') }}" method="POST" class="my-3">
-    <textarea name="category" id="category" rows="1"></textarea>
-    <textarea name="amount" id="amount" rows="1"></textarea>
-    <textarea name="remark" id="remark" rows="1"></textarea>
-    <input type="submit" value="상환등록">
-</form>
+<!-- 질문 등록 -->
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">상환내역 등록</h5>
+    <form method="post" class="my-3">
+        {{ form.csrf_token }}
+        <!-- 오류표시 Start -->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items() %}
+            <strong>{{ form[field].label }}</strong>
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- 오류표시 End -->
+
+        <div class="mb-3">
+            <label for="category">카테고리</label>
+            <input type="text" class="form-control" name="category" id="category" value="{{ form.category.data or '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="amount">상환금액(만원)</label>
+            <input type="text" class="form-control" name="amount" id="amount" value="{{ form.amount.data or '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="created_at">상환날짜</label>
+            <input type="date" class="form-control" name="created_at" id="created_at" value="{{ form.created_at.data or '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="remark">비고</label>
+            <input type="text" class="form-control" name="remark" id="remark" value="{{ form.remark.data or '' }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+</div>
 {% endblock %}

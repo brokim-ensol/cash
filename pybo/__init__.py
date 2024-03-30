@@ -7,22 +7,22 @@ import os
 db = SQLAlchemy()
 migrate = Migrate()
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
-    
-    #ORM
+
+    # ORM
     db.init_app(app)
     migrate.init_app(app, db)
     from . import models
 
-    app.secret_key = "brokim"
-
     from .views import main_views, repayment_views, balance_views
+
     app.register_blueprint(main_views.bp)
     app.register_blueprint(repayment_views.bp)
     app.register_blueprint(balance_views.bp)
-    
+
     return app
 
 

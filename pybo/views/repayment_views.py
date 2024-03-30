@@ -3,6 +3,8 @@ from datetime import datetime
 from pybo.models import Repayment, Balance
 from pybo import db
 from werkzeug.utils import redirect
+from pybo.forms import RepaymentFoam
+from pybo.models import Repayment
 
 bp = Blueprint("repayment", __name__, url_prefix="/repayment")
 
@@ -23,32 +25,29 @@ def detail(repayment_id):
 
 @bp.route("/create/", methods=("POST", "GET"))
 def create():
-    if request.method == "POST":
-        category = request.form["category"]
-        amount = request.form["amount"]
-        if request.form["remark"]:
-            remark = request.form["remark"]
-        else:
-            remark = None
-        now = datetime.now()
+    form = RepaymentFoam()
+    if request.method == "POST" and form.validate_on_submit():
+        created_at = form.created_at.data if form.created_at.data else datetime.now()
+        remark = form.remark.data if form.remark.data else None
         repayment = Repayment(
-            category=category, amount=amount, created_at=now, remark=remark
+            category=form.category.data,
+            amount=form.amount.data,
+            created_at=created_at,
+            remark=remark,
         )
         db.session.add(repayment)
-        # query latest Balance
         latest_balance = Balance.query.order_by(Balance.created_at.desc()).first()
         if latest_balance is None:
-            new_balance = int(amount)
+            new_balance = int(form.amount.data)
         else:
-            new_balance = latest_balance.balance - int(amount)
+            new_balance = latest_balance.balance - int(form.amount.data)
         balance = Balance(
             repayment_id=repayment.id,
             balance=new_balance,
-            created_at=now,
+            created_at=created_at,
             remark=remark,
         )
         repayment.balance_set.append(balance)
         db.session.commit()
-        return redirect(url_for("repayment.detail", repayment_id=repayment.id))
-    elif request.method == "GET":
-        return render_template("repayment/repayment_create.html")
+        return render_template("repayment/repayment_detail.html", repayment=repayment)
+    return render_template("repayment/repayment_create.html", form=form)

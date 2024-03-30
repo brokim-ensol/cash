@@ -1,4 +1,25 @@
-<h1>상환내역</h1>
-<div>
-    {{ repayment.category }} / {{ repayment.amount }} / {{ repayment.remark }} // {{ repayment.created_at }}
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">상환내역 상세</h5>
+    <form method="get" class="my-3">
+        <div class="mb-3">
+            <label for="category">카테고리</label>
+            <input type="text" class="form-control" name="category" id="category" value="{{ repayment.category }}" readonly>
+        <div>
+        <div class="mb-3">
+            <label for="amount">상환금액(만원)</label>
+            <input type="text" class="form-control" name="amount" id="amount" value="{{ repayment.amount }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="created_at">상환날짜</label>
+            <input type="date" class="form-control" name="created_at" id="created_at" value="{{ repayment.created_at.strftime('%Y-%m-%d') }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="remark">비고</label>
+            <input type="text" class="form-control" name="remark" id="remark" value="{{ repayment.remark }}" readonly>
+        </div>
+    </form>
+    <a href="{{ url_for('repayment._list') }}" class="btn btn-primary">전체목록</a>
 </div>
+{% endblock %}

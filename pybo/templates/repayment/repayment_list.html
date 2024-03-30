@@ -6,7 +6,7 @@
         <tr class="table-dark">
             <th>번호</th>
             <th>카테고리</th>
-            <th>상환금액</th>
+            <th>상환금액(만원)</th>
             <th>상환날짜</th>
             <th>비고</th>
         </tr>
@@ -20,7 +20,8 @@
                 <a href="{{ url_for('repayment.detail', repayment_id=repayment.id) }}">{{ repayment.category }}</a>
             </td>
             <td>{{ repayment.amount }}</td>
-            <td>{{ repayment.created_at }}</td>
+            <!-- repayment.created_at을 date 형식으로 추가 -->
+            <td>{{ repayment.created_at.strftime('%Y-%m-%d') }}</td>
             <td>{{ repayment.remark }}</td>
         </tr>
         {% endfor %}
@@ -31,5 +32,6 @@
         {% endif %}
         </tbody>
     </table>
+    <a href="{{ url_for('repayment.create') }}" class="btn btn-primary">상환내역 추가하기</a>
 </div>
 {% endblock %}
