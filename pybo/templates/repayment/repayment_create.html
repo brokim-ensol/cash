@@ -1,6 +1,9 @@
-<form action="{{ url_for('repayment.create') }}" method="POST">
+{% extends 'base.html' %}
+{% block content %}
+<form action="{{ url_for('repayment.create') }}" method="POST" class="my-3">
     <textarea name="category" id="category" rows="1"></textarea>
     <textarea name="amount" id="amount" rows="1"></textarea>
     <textarea name="remark" id="remark" rows="1"></textarea>
     <input type="submit" value="상환등록">
 </form>
+{% endblock %}

@@ -1,9 +1,35 @@
-{% if repayment_list %}
-    <ul>
-    {% for repayment in repayment_list %}
-        <li><a href="{{ url_for('repayment.detail', repayment_id=repayment.id) }}">{{ repayment.id }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>상환 내역이 없습니다.</p>
-{% endif %}
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="table-dark">
+            <th>번호</th>
+            <th>카테고리</th>
+            <th>상환금액</th>
+            <th>상환날짜</th>
+            <th>비고</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if repayment_list %}
+        {% for repayment in repayment_list %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                <a href="{{ url_for('repayment.detail', repayment_id=repayment.id) }}">{{ repayment.category }}</a>
+            </td>
+            <td>{{ repayment.amount }}</td>
+            <td>{{ repayment.created_at }}</td>
+            <td>{{ repayment.remark }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">상환 내역이 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

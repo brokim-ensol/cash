@@ -1,9 +1,34 @@
-{% if balance_list %}
-    <ul>
-    {% for balance in balance_list %}
-        <li><a href="{{ url_for('balance.detail', balance_id=balance.id) }}">{{ balance.id }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>내역이 없습니다.</p>
-{% endif %}
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+<div class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="table-dark">
+            <th>번호</th>
+            <th>대출잔액</th>
+            <th>입력날짜</th>
+            <th>비고</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if balance_list %}
+        {% for balance in balance_list %}
+        <tr>
+            <td>
+                <a href="{{ url_for('balance.detail', balance_id=balance.id) }}">{{ loop.index }}</a>
+            </td>
+            <td>{{ balance.balance }}</td>
+            <td>{{ balance.created_at }}</td>
+            <td>{{ balance.remark }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">내역이 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
