@@ -30,7 +30,7 @@
         </div>
         <div class="mb-3">
             <label for="created_at">상환날짜</label>
-            <input type="date" class="form-control" name="created_at" id="created_at" value="{{ form.created_at.data or '' }}">
+            <input type="date" class="form-control" name="created_at" id="created_at" value="{{ form.created_at.data or ''}}">
         </div>
         <div class="mb-3">
             <label for="remark">비고</label>
@@ -38,6 +38,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">저장하기</button>
-    </form>
+    </form>    
 </div>
+<script type="text/javascript">document.getElementById('created_at').value = new Date().toISOString().substring(0, 10); </script>
 {% endblock %}

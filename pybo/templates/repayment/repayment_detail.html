@@ -9,15 +9,23 @@
         <div>
         <div class="mb-3">
             <label for="amount">상환금액(만원)</label>
-            <input type="text" class="form-control" name="amount" id="amount" value="{{ repayment.amount }}" readonly>
+            <div class="badge bg-light text-dark p-2">
+                {{ repayment.amount }}
+            </div>
         </div>
         <div class="mb-3">
             <label for="created_at">상환날짜</label>
-            <input type="date" class="form-control" name="created_at" id="created_at" value="{{ repayment.created_at.strftime('%Y-%m-%d') }}" readonly>
+            <div class="badge bg-light text-dark p-2">
+                {{ repayment.created_at|datetime }}
+            </div>
         </div>
         <div class="mb-3">
             <label for="remark">비고</label>
             <input type="text" class="form-control" name="remark" id="remark" value="{{ repayment.remark }}" readonly>
+        </div>
+        <div class="my-3">
+            <a href="{{ url_for('repayment.modify', repayment_id=repayment.id) }}"
+               class="btn btn-sm btn-outline-secondary">수정</a>
         </div>
     </form>
     <a href="{{ url_for('repayment._list') }}" class="btn btn-primary">전체목록</a>

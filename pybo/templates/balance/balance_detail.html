@@ -14,7 +14,7 @@
         </div>
         <div class="mb-3">
             <label for="created_at">상환날짜</label>
-            <input type="date" class="form-control" name="created_at" id="created_at" value="{{ balance.created_at.strftime('%Y-%m-%d') }}" readonly>
+            <input type="date" class="form-control" name="created_at" id="created_at" value="{{ balance.created_at|datetime }}" readonly>
         </div>
         <div class="mb-3">
             <label for="remark">비고</label>
