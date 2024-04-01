@@ -9,8 +9,8 @@
             <input type="text" class="form-control" name="amount" id="amount" value="{{ balance.repayment.amount }}" readonly>
         </div>
         <div class="mb-3">
-            <label for="balance">대출금 잔액(만원)</label>
-            <input type="text" class="form-control" name="balance" id="balance" value="{{ balance.balance }}" readonly>
+            <label for="balance">대출잔액(만원)</label>
+            <input type="text" class="form-control" name="balance" id="balance" value="{{ balance.balance|number_format_simple }}" readonly>
         </div>
         <div class="mb-3">
             <label for="created_at">상환날짜</label>

@@ -19,7 +19,7 @@
             <td>
                 <a href="{{ url_for('repayment.detail', repayment_id=repayment.id) }}">{{ repayment.category }}</a>
             </td>
-            <td>{{ repayment.amount }}</td>
+            <td>{{ repayment.amount|number_format_simple }}</td>
             <!-- repayment.created_at을 date 형식으로 추가 -->
             <td>{{ repayment.created_at|datetime }}</td>
             <td>{{ repayment.remark }}</td>

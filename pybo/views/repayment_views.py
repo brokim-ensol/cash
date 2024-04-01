@@ -28,7 +28,7 @@ def create():
     form = RepaymentFoam()
     if request.method == "POST" and form.validate_on_submit():
         created_at = form.created_at.data
-        remark = form.remark.data if form.remark.data else None
+        remark = form.remark.data if form.remark.data else ''
         repayment = Repayment(
             category=form.category.data,
             amount=form.amount.data,
@@ -59,7 +59,6 @@ def modify(repayment_id):
         form = RepaymentFoam()
         if form.validate_on_submit():
             form.populate_obj(repayment)
-            print(repayment.created_at.data)
             repayment.modified_at = datetime.now()  # 수정일시 저장
             db.session.commit()
             return redirect(url_for('repayment.detail', repayment_id=repayment_id))

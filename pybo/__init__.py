@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 import config
 from sqlalchemy import MetaData
+from datetime import datetime
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -36,8 +37,9 @@ def create_app():
     app.register_blueprint(balance_views.bp)
     
     # 필터
-    from .filter import format_datetime
+    from .filter import format_datetime,number_format_simple
     app.jinja_env.filters['datetime'] = format_datetime
+    app.jinja_env.filters['number_format_simple'] = number_format_simple
 
     return app
 
