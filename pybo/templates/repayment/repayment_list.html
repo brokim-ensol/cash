@@ -6,8 +6,8 @@
         <tr class="table-dark">
             <th>번호</th>
             <th>카테고리</th>
-            <th>상환금액(만원)</th>
-            <th>상환날짜</th>
+            <th>금액(만원)</th>
+            <th>날짜</th>
             <th>비고</th>
         </tr>
         </thead>
@@ -15,10 +15,10 @@
         {% if repayment_list %}
         {% for repayment in repayment_list.items %}
         <tr>
-            <td>{{ repayment_list.total - ((repayment_list.page-1) * repayment_list.per_page) - loop.index0 }}</td>
             <td>
-                <a href="{{ url_for('repayment.detail', repayment_id=repayment.id) }}">{{ repayment.category }}</a>
+                <a href="{{ url_for('repayment.detail', repayment_id=repayment.id) }}">{{ repayment_list.total - ((repayment_list.page-1) * repayment_list.per_page) - loop.index0 }}</a>
             </td>
+            <td>{{ repayment.category }}</td>
             <td>{{ repayment.amount|number_format_simple }}</td>
             <!-- repayment.created_at을 date 형식으로 추가 -->
             <td>{{ repayment.created_at|datetime }}</td>

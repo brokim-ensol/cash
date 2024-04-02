@@ -7,8 +7,9 @@
         <tr class="table-dark">
             <th>번호</th>
             <th>대출잔액(만원)</th>
+            <th>대출잔액(%)</th>
             <th>상환날짜</th>
-            <th>비고</th>
+            <th>카테고리</th>            
         </tr>
         </thead>
         <tbody>
@@ -19,8 +20,9 @@
                 <a href="{{ url_for('balance.detail', balance_id=balance.id) }}">{{ balance_list.total - ((balance_list.page-1) * balance_list.per_page) - loop.index0 }}</a>
             </td>
             <td>{{ balance.balance|number_format_simple }}</td>
+            <td>{{ balance.ratio|ratio_to_percent_format}}</td>
             <td>{{ balance.created_at|datetime }}</td>
-            <td>{{ balance.remark }}</td>
+            <td>{{ balance.category }}</td>
         </tr>
         {% endfor %}
         {% else %}

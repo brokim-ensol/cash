@@ -39,13 +39,16 @@ def create():
         latest_balance = Balance.query.order_by(Balance.created_at.desc()).first()
         if latest_balance is None:
             new_balance = int(form.amount.data)
+            new_ratio = 1
         else:
             new_balance = latest_balance.balance - int(form.amount.data)
+            new_ratio = new_balance / latest_balance.balance
         balance = Balance(
             repayment_id=repayment.id,
             balance=new_balance,
+            ratio=new_ratio,
             created_at=created_at,
-            remark=remark,
+            category=form.category.data,
         )
         repayment.balance_set.append(balance)
         db.session.commit()

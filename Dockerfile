@@ -12,7 +12,7 @@ RUN pip3 install -r requirements.txt
 
 ENV FLASK_APP=pybo\
     FLASK_DEBUG=false\
-    APP_CONFIG_FILE="/opt/myproject/pybo/config/production.py"
+    APP_CONFIG_FILE="/opt/myproject/config/production.py"
 
 # 실행 파일 설정
 CMD guicorn --bind 0.0.0.0:9000 "pybo:create_app()"

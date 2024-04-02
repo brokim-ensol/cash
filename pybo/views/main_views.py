@@ -10,4 +10,4 @@ def hello_pybo():
 
 @bp.route('/')
 def index():    
-    return redirect(url_for('repayment._list'))
+    return redirect(url_for('balance._list'))

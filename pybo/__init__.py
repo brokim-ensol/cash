@@ -29,16 +29,18 @@ def create_app():
         migrate.init_app(app, db)
     from . import models
 
-    from .views import main_views, repayment_views, balance_views
+    from .views import main_views, repayment_views, balance_views, graph_views
 
     app.register_blueprint(main_views.bp)
     app.register_blueprint(repayment_views.bp)
     app.register_blueprint(balance_views.bp)
+    app.register_blueprint(graph_views.bp)
     
     # 필터
-    from .filter import format_datetime,number_format_simple
+    from .filter import format_datetime,number_format_simple,ratio_to_percent_format
     app.jinja_env.filters['datetime'] = format_datetime
     app.jinja_env.filters['number_format_simple'] = number_format_simple
+    app.jinja_env.filters['ratio_to_percent_format'] = ratio_to_percent_format
 
     return app
 

@@ -11,14 +11,18 @@
         <div class="mb-3">
             <label for="balance">대출잔액(만원)</label>
             <input type="text" class="form-control" name="balance" id="balance" value="{{ balance.balance|number_format_simple }}" readonly>
+        </div>        
+        <div class="mb-3">
+            <label for="ratio">대출잔액(%)</label>
+            <input type="text" class="form-control" name="ratio" id="ratio" value="{{ balance.ratio|ratio_to_percent_format}}" readonly>
         </div>
         <div class="mb-3">
             <label for="created_at">상환날짜</label>
             <input type="date" class="form-control" name="created_at" id="created_at" value="{{ balance.created_at|datetime }}" readonly>
         </div>
         <div class="mb-3">
-            <label for="remark">비고</label>
-            <input type="text" class="form-control" name="remark" id="remark" value="{{ balance.remark }}" readonly>
+            <label for="category">카테고리</label>
+            <input type="text" class="form-control" name="category" id="category" value="{{ balance.category }}" readonly>
         </div>
     </form>
     <a href="{{ url_for('balance._list') }}" class="btn btn-primary">전체목록</a>

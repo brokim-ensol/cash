@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2> 대출현황 그래프</h2>
+<div id="chart_progress" class="chart" style="height: 300px;border: 1px solid; box-shadow: 5px 5px 5px #888888;"></div>
+{% endblock %}
+{% block script %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    async function plot() {
+        let rsp_progress = await fetch("/show/graph");
+        if (rsp_progress.ok) {
+            let chartJson = await rsp_progress.json();
+            if (rsp_progress.ok) {
+                Plotly.newPlot('chart_progress', chartJson, {});
+            } else {
+                alert("HTTP-Error: " + rsp_progress.status + "on getInfo");
+            }
+        } else {
+            alert("HTTP-Error: " + rsp_progress.status + "on getStock");
+        }
+    }
+</script>
+<script>plot();</script>
+{% endblock %}

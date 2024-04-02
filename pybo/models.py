@@ -17,4 +17,5 @@ class Balance(db.Model):
     repayment = db.relationship('Repayment', backref=db.backref('balance_set'))
     balance = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
-    remark = db.Column(db.String(200), nullable=True)
+    category = db.Column(db.String(200), nullable=True)
+    ratio = db.Column(db.Float, nullable=False)
