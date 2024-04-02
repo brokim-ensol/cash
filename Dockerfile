@@ -14,5 +14,9 @@ ENV FLASK_APP=pybo\
     FLASK_DEBUG=false\
     APP_CONFIG_FILE="/opt/myproject/config/production.py"
 
+RUN flask db init
+RUN flask db migrate
+RUN flask db upgrade
+
 # 실행 파일 설정
-CMD guicorn --bind 0.0.0.0:9000 "pybo:create_app()"
+CMD gunicorn --bind 0.0.0.0:9000 "pybo:create_app()"
