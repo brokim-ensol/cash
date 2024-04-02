@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request
-from pybo.models import Balance, Repayment
-import plotly
+from flask import Blueprint, render_template, request, url_for
+from pybo.models import Balance
 import plotly.express as px
 import pandas as pd
+import os
+from pathlib import Path
 
 bp = Blueprint('show', __name__, url_prefix='/show')
 
@@ -23,11 +24,18 @@ def gm():
     #unpacking balance_list which is a list of Balance objects
     balance_data = [(balance.created_at, balance.ratio) for balance in balance_list]
 
-    df = pd.DataFrame.from_records(balance_data, columns=["created_at", "ratio"])
-    df['balance_ratio'] = 1 - df['ratio']
+    actual_df = pd.DataFrame.from_records(balance_data, columns=["created_at", "ratio"])
+    actual_df['repayment_ratio'] = 1 - actual_df['ratio']
+    actual_df['type'] = '실행'
     #generate dataframe from the query
+    this_file_path = Path(__file__)
+    plan_df = pd.read_excel(this_file_path.parents[1].joinpath('static/simul.xlsx'))
+    plan_df = plan_df[['created_at', 'repayment_ratio','type']]
+    #concat the two dataframes
+    df = pd.concat([actual_df, plan_df])
 
-    fig = px.line(df, x="created_at", y="balance_ratio", title="ratio Graph")
+    fig = px.line(df, x="created_at", y="repayment_ratio", title="대출상환 진도율", markers=True, color='type', labels={'created_at': '월', 'repayment_ratio': '상환비율'}, range_x=[df['created_at'].min(), df['created_at'].max()])
+    fig.update_xaxes(tickformat="%y-%m",dtick="M1", ticklabelmode="period")
 
     # Create a JSON representation of the graph
     graphJSON = fig.to_json()
