@@ -223,3 +223,4 @@ $RECYCLE.BIN/
 *.csv
 config.py
 migrations
+pybo/config/production.py
