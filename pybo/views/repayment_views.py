@@ -65,3 +65,10 @@ def modify(repayment_id):
     else:  # GET 요청
         form = RepaymentFoam(obj=repayment)
     return render_template('repayment/repayment_create.html', form=form)
+
+@bp.route('/delete/<int:repayment_id>')
+def delete(repayment_id):
+    repayment = Repayment.query.get_or_404(repayment_id)
+    db.session.delete(repayment)
+    db.session.commit()
+    return redirect(url_for('repayment._list'))

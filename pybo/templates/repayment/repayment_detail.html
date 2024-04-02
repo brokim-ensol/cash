@@ -25,7 +25,20 @@
         </div>
     </form>
     <div class="my-3">
-        <a href="{{ url_for('repayment.modify', repayment_id=repayment.id) }}" class="btn btn-sm btn-outline-secondary">수정</a></div>
+        <a href="{{ url_for('repayment.modify', repayment_id=repayment.id) }}" class="btn btn-sm btn-outline-secondary">수정</a>    
+        <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary" data-uri="{{ url_for('repayment.delete', repayment_id=repayment.id) }}">삭제</a></div>
     <a href="{{ url_for('repayment._list') }}" class="btn btn-primary">전체목록</a>
 </div>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
 {% endblock %}

@@ -3,3 +3,4 @@ flask
 plotly
 flask-migrate
 flask-wtf
+gunicorn
