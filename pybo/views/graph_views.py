@@ -27,6 +27,8 @@ def gm():
     actual_df = pd.DataFrame.from_records(balance_data, columns=["created_at", "ratio"])
     actual_df['repayment_ratio'] = 1 - actual_df['ratio']
     actual_df['type'] = '실행'
+    #sort the dataframe by created_at
+    actual_df = actual_df.sort_values(by='created_at')
     #generate dataframe from the query
     this_file_path = Path(__file__)
     plan_df = pd.read_excel(this_file_path.parents[1].joinpath('static/simul.xlsx'))
@@ -35,7 +37,6 @@ def gm():
     df = pd.concat([actual_df, plan_df])
 
     fig = px.line(df, x="created_at", y="repayment_ratio", title="대출상환 진도율", markers=True, color='type', labels={'created_at': '월', 'repayment_ratio': '상환비율'}, range_x=[df['created_at'].min(), df['created_at'].max()])
-    fig.update_xaxes(tickformat="%y-%m",dtick="M1", ticklabelmode="period")
 
     # Create a JSON representation of the graph
     graphJSON = fig.to_json()

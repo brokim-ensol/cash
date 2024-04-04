@@ -35,8 +35,8 @@ def create():
             created_at=created_at,
             remark=remark,
         )
-        db.session.add(repayment)
-        latest_balance = Balance.query.order_by(Balance.created_at.desc()).first()
+        db.session.add(repayment)        
+        latest_balance = Balance.query.filter(Balance.created_at <= created_at).order_by(Balance.created_at.desc()).first()
         if latest_balance is None:
             new_balance = int(form.amount.data)
             new_ratio = 1
