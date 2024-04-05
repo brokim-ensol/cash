@@ -21,7 +21,7 @@
             </td>
             <td>{{ balance.balance|number_format_simple }}</td>
             <td>{{ balance.ratio|ratio_to_percent_format}}</td>
-            <td>{{ balance.created_at|datetime }}</td>
+            <td>{{ balance.repaid_dt|datetime }}</td>
             <td>{{ balance.category }}</td>
         </tr>
         {% endfor %}

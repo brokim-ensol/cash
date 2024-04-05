@@ -17,8 +17,8 @@
             <input type="text" class="form-control" name="ratio" id="ratio" value="{{ balance.ratio|ratio_to_percent_format}}" readonly>
         </div>
         <div class="mb-3">
-            <label for="created_at">상환날짜</label>
-            <input type="date" class="form-control" name="created_at" id="created_at" value="{{ balance.created_at|datetime }}" readonly>
+            <label for="repaid_dt">상환날짜</label>
+            <input type="date" class="form-control" name="repaid_dt" id="repaid_dt" value="{{ balance.repaid_dt|datetime }}" readonly>
         </div>
         <div class="mb-3">
             <label for="category">카테고리</label>

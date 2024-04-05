@@ -3,6 +3,7 @@ from datetime import datetime
 from pybo.models import Repayment, Balance
 from pybo import db
 from pybo.forms import RepaymentFoam
+import pandas as pd
 
 bp = Blueprint("repayment", __name__, url_prefix="/repayment")
 
@@ -35,22 +36,22 @@ def create():
             created_at=created_at,
             remark=remark,
         )
-        db.session.add(repayment)        
-        latest_balance = Balance.query.filter(Balance.created_at <= created_at).order_by(Balance.created_at.desc()).first()
-        if latest_balance is None:
-            new_balance = int(form.amount.data)
-            new_ratio = 1
-        else:
-            new_balance = latest_balance.balance - int(form.amount.data)
-            new_ratio = new_balance / latest_balance.balance
+        db.session.add(repayment)
         balance = Balance(
             repayment_id=repayment.id,
-            balance=new_balance,
-            ratio=new_ratio,
-            created_at=created_at,
+            amount=form.amount.data,
+            repaid_dt=created_at,
             category=form.category.data,
         )
         repayment.balance_set.append(balance)
+        balance_list = Balance.query.all()
+        #unpacking balance_list which is a list of Balance objects
+        balance_data = [(balance.id, balance.repayment_id, balance.amount, balance.repaid_dt, balance.category) for balance in balance_list]
+        balance_df = pd.DataFrame.from_records(balance_data, columns=["id", "repayment_id", "amount", "repaid_dt", "category"])
+        balance_df = balance_df.sort_values(by=['repaid_dt', 'id'], ascending=[True, True])
+        balance_df['balance'] = 32000 - balance_df['amount'].cumsum()
+        balance_df['ratio'] = balance_df['amount'].cumsum() / 32000
+        balance_df.to_sql('balance', db.engine, if_exists='replace', index=False, index_label='id')
         db.session.commit()
         return render_template("repayment/repayment_detail.html", repayment=repayment)
     return render_template("repayment/repayment_create.html", form=form)
