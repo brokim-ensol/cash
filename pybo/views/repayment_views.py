@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from datetime import datetime
+import pandas as pd
+from sqlalchemy import update
+from sqlalchemy.sql import functions as func
 from pybo.models import Repayment, Balance
 from pybo import db
 from pybo.forms import RepaymentFoam
-import pandas as pd
-from sqlalchemy import update
 
 bp = Blueprint("repayment", __name__, url_prefix="/repayment")
 
@@ -56,7 +57,7 @@ def modify(repayment_id):
         form = RepaymentFoam()
         if form.validate_on_submit():
             form.populate_obj(repayment)
-            repayment.modified_at = datetime.now().date()
+            repayment.balance.repaid_dt = repayment.created_at
             update_balance()
             db.session.commit()
             return redirect(url_for("repayment.detail", repayment_id=repayment_id))

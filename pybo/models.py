@@ -1,6 +1,7 @@
 from pybo import db
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import Mapped
+from datetime import datetime
 
 db: SQLAlchemy
 
@@ -9,8 +10,7 @@ class Repayment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(200), nullable=False)
     amount = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.Date, nullable=False)
-    modified_at = db.Column(db.Date, nullable=True)
+    created_at = db.Column(db.Date, nullable=False, default=datetime.now().date())
     remark = db.Column(db.String(200), nullable=True)
 
 
@@ -21,6 +21,6 @@ class Balance(db.Model):
         "Repayment", backref=db.backref("balance", uselist=False)
     )
     balance = db.Column(db.Integer, nullable=True)
+    ratio = db.Column(db.Float, nullable=True)    
+    repaid_dt = db.Column(db.Date, nullable=False, default=datetime.now().date())
     category = db.Column(db.String(200), nullable=True)
-    repaid_dt = db.Column(db.Date, nullable=False)
-    ratio = db.Column(db.Float, nullable=True)

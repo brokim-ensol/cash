@@ -8,16 +8,12 @@
             <input type="text" class="form-control" name="category" id="category" value="{{ repayment.category }}" readonly>
         </div>
         <div class="mb-3">
-            <label for="amount">금액(만원)</label>
+            <label for="amount">상환금액(만원)</label>
             <input type="text" class="form-control" name="amount" id="amount" value="{{ repayment.amount|number_format_simple }}" readonly>
         </div>
         <div class="mb-3">
-            <label for="created_at">입력날짜</label>
+            <label for="created_at">상환날짜</label>
             <input type="date" class="form-control" name="created_at" id="created_at" value="{{ repayment.created_at|datetime }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="modified_at">수정날짜</label>
-            <input type="date" class="form-control" name="modified_at" id="modified_at" value="{{ repayment.modified_at|datetime if repayment.modified_at else '' }}" readonly>
         </div>
         <div class="mb-3">
             <label for="remark">비고</label>

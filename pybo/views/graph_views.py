@@ -22,7 +22,7 @@ def gm():
     # df = st.history(period=(period), interval=interval)
     balance_list = Balance.query.all()
     #unpacking balance_list which is a list of Balance objects
-    balance_data = [(balance.created_at, balance.ratio) for balance in balance_list]
+    balance_data = [(balance.repaid_dt, balance.ratio) for balance in balance_list]
 
     actual_df = pd.DataFrame.from_records(balance_data, columns=["created_at", "ratio"])
     actual_df['repayment_ratio'] = 1 - actual_df['ratio']
@@ -33,6 +33,7 @@ def gm():
     this_file_path = Path(__file__)
     plan_df = pd.read_excel(this_file_path.parents[1].joinpath('static/simul.xlsx'))
     plan_df = plan_df[['created_at', 'repayment_ratio','type']]
+    plan_df['created_at'] = pd.to_datetime(plan_df['created_at']).dt.date
     #concat the two dataframes
     df = pd.concat([actual_df, plan_df])
 
