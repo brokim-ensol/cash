@@ -18,9 +18,10 @@ class Balance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     repayment_id = db.Column(db.Integer, db.ForeignKey("repayment.id"))
     repayment: Mapped["Repayment"] = db.relationship(
-        "Repayment", backref=db.backref("balance", uselist=False)
+        "Repayment",
+        backref=db.backref("balance", uselist=False, cascade="all, delete-orphan"),
     )
     balance = db.Column(db.Integer, nullable=True)
-    ratio = db.Column(db.Float, nullable=True)    
+    ratio = db.Column(db.Float, nullable=True)
     repaid_dt = db.Column(db.Date, nullable=False, default=datetime.now().date())
     category = db.Column(db.String(200), nullable=True)
