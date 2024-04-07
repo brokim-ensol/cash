@@ -14,7 +14,18 @@ ENV FLASK_APP=pybo\
     FLASK_DEBUG=false\
     APP_CONFIG_FILE="/opt/myproject/config/production.py"
 
-RUN flask db init
+# get_rev_db.py를 실행하고 리턴한 결과가 0이 아니면 revision_num 환경변수로 선언
+RUN revision_num=$(python get_rev_db.py); \
+    if [ "$revision_num" != "0" ]; then \
+        export revision_num=$revision_num; \
+    fi
+# 만약에 pybo.db 파일이 존재하면 flask db downgrade 명령어를 실행
+RUN if [ -f pybo.db ]; then \        
+        flask db revision --rev-id ${revision_num}; \
+    else \
+        flask db init; \
+    fi
+
 RUN flask db migrate
 RUN flask db upgrade
 
