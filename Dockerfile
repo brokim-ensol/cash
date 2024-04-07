@@ -18,12 +18,13 @@ ENV FLASK_APP=pybo\
 RUN revision_num="$(python get_rev_db.py)"; \
     if [ "$revision_num" != "0" ]; then \
         echo "$revision_num"; \
-        export revision_num="$revision_num"; \
     fi
+
+ENV revision_num="${revision_num}"
 
 # 만약에 pybo.db 파일이 존재하면 flask db downgrade 명령어를 실행
 RUN if [ -f pybo.db ]; then \
-        echo ${revision_num}; \
+        echo "${revision_num}"; \
         flask db revision --rev-id "${revision_num}"; \
     else \
         flask db init; \
