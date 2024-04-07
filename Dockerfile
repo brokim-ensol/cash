@@ -25,6 +25,7 @@ ENV revision_num="${revision_num}"
 # 만약에 pybo.db 파일이 존재하면 flask db downgrade 명령어를 실행
 RUN if [ -f pybo.db ]; then \
         echo "${revision_num}"; \
+        flask db init; \
         flask db revision --rev-id "${revision_num}"; \
     else \
         flask db init; \
