@@ -70,6 +70,8 @@ def modify(repayment_id):
 def delete(repayment_id):
     repayment = Repayment.query.get_or_404(repayment_id)
     db.session.delete(repayment)
+    balance = Balance.query.filter_by(repayment_id=repayment_id).first()
+    db.session.delete(balance)
     db.session.commit()
     return redirect(url_for("repayment._list"))
 
